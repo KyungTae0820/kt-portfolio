@@ -5,54 +5,42 @@ import Image from "next/image";
 
 const Photo = () => {
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full min-h-[50vh] flex flex-col items-center justify-center relative">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{
           opacity: 1,
           transition: { delay: 2, duration: 0.4, ease: "easeIn" },
         }}
+        className="relative flex items-center justify-center w-full"
       >
-        {/* image */}
+        {/* 이미지 */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{
             opacity: 1,
             transition: { delay: 2, duration: 0.4, ease: "easeInOut" },
           }}
-          className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] absolute" //delete mix-blend-lighten absolute and put absolute
-          style={{
-            zIndex: 1, // circle의 z-index를 더 높게 설정
-            position: "absolute", // position 설정
-            top: "50%", // 부모 요소의 세로 가운데로 위치
-            left: "50%", // 부모 요소의 가로 가운데로 위치
-            transform: "translate(-105%, -50%)", // 실제로 정확히 가운데 정렬
-          }}
+          className="relative w-[80%] max-w-[400px] lg:w-[100%] lg:max-w-[800px] h-auto"
         >
           <Image
             src="/assets/photo.png"
             priority
             quality={100}
-            fill
-            alt=""
-            className="object-contain"
+            width={700}
+            height={700}
+            alt="photo"
+            className="w-full h-auto object-contain"
           />
         </motion.div>
 
-        {/* circle */}
-        <motion.svg
-          className="w-[300px] xl:w-[506px] h-[300px] xl:h-[506px]"
-          fill="transparent"
-          viewBox="0 0 506 506"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{
-            zIndex: 2, // circle의 z-index를 더 높게 설정
-            position: "absolute", // position 설정
-            top: "50%", // 부모 요소의 세로 가운데로 위치
-            left: "50%", // 부모 요소의 가로 가운데로 위치
-            transform: "translate(-100%, -50%)", // 실제로 정확히 가운데 정렬
-          }}
-        >
+        {/* 원형 애니메이션 */}
+          <motion.svg
+              className="absolute w-[300px] sm:w-[350px] md:w-[450px] lg:w-[500px] h-[300px] sm:h-[350px] md:h-[450px] lg:h-[500px]"
+              fill="transparent"
+              viewBox="0 0 506 506"
+              xmlns="http://www.w3.org/2000/svg"
+          >
           <motion.circle
             cx="253"
             cy="253"
