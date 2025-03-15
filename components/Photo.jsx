@@ -18,9 +18,16 @@ const Photo = () => {
           initial={{ opacity: 0 }}
           animate={{
             opacity: 1,
-            transition: { delay: 2.4, duration: 0.4, ease: "easeInOut" },
+            transition: { delay: 2, duration: 0.4, ease: "easeInOut" },
           }}
-          className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] mix-blend-lighten absolute"
+          className="w-[298px] h-[298px] xl:w-[498px] xl:h-[498px] absolute" //delete mix-blend-lighten absolute and put absolute
+          style={{
+            zIndex: 1, // circle의 z-index를 더 높게 설정
+            position: "absolute", // position 설정
+            top: "50%", // 부모 요소의 세로 가운데로 위치
+            left: "50%", // 부모 요소의 가로 가운데로 위치
+            transform: "translate(-105%, -50%)", // 실제로 정확히 가운데 정렬
+          }}
         >
           <Image
             src="/assets/photo.png"
@@ -38,12 +45,19 @@ const Photo = () => {
           fill="transparent"
           viewBox="0 0 506 506"
           xmlns="http://www.w3.org/2000/svg"
+          style={{
+            zIndex: 2, // circle의 z-index를 더 높게 설정
+            position: "absolute", // position 설정
+            top: "50%", // 부모 요소의 세로 가운데로 위치
+            left: "50%", // 부모 요소의 가로 가운데로 위치
+            transform: "translate(-100%, -50%)", // 실제로 정확히 가운데 정렬
+          }}
         >
           <motion.circle
             cx="253"
             cy="253"
             r="250"
-            stroke="#00ff99"
+            stroke="#FFCC00"
             strokeWidth="4"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -53,7 +67,7 @@ const Photo = () => {
               rotate: [120, 360],
             }}
             transition={{
-              duration: 20,
+              duration: 10,
               repeat: Infinity,
               repeatType: "reverse",
             }}

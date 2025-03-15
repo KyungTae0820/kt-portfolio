@@ -1,6 +1,8 @@
 "use client";
 
 import {
+  FaPython,
+  FaJava,
   FaHtml5,
   FaCss3,
   FaJs,
@@ -10,36 +12,37 @@ import {
 } from "react-icons/fa";
 
 import { SiTailwindcss, SiNextdotjs } from "react-icons/si";
+import { PiFileCppBold } from "react-icons/pi";
 
 // about data
 const about = {
   title: "About me",
   description:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quibusdam, sunt explicabo inventore.",
+    "Here is my basic information!",
   info: [
     {
       fieldName: "Name",
-      fieldValue: "Luke Coleman",
+      fieldValue: "KyungTae Kim (KT)",
     },
     {
       fieldName: "Phone",
-      fieldValue: "(+40) 321 654 678",
+      fieldValue: "(+1) (917) 487 8930",
     },
     {
       fieldName: "Experience",
-      fieldValue: "12+ Years",
+      fieldValue: "6+ Years",
     },
     {
-      fieldName: "Skype",
-      fieldValue: "luke.01",
+      fieldName: "Discord",
+      fieldValue: "KT0820#8549",
     },
     {
       fieldName: "Nationality",
-      fieldValue: "American",
+      fieldValue: "Korean",
     },
     {
       fieldName: "Email",
-      fieldValue: "luke.01@gmail.com",
+      fieldValue: "kyungtae@usc.edu",
     },
     {
       fieldName: "Freelance",
@@ -47,7 +50,7 @@ const about = {
     },
     {
       fieldName: "Languages",
-      fieldValue: "English, Spanish",
+      fieldValue: "English, Korean, Spanish",
     },
   ],
 };
@@ -57,37 +60,12 @@ const experience = {
   icon: "/assets/resume/badge.svg",
   title: "My experience",
   description:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quibusdam, sunt explicabo inventore.",
+    "As a sophomore in college, I am eager to gain experience at various companies in the future!",
   items: [
     {
-      company: "Tech Solutions Inc.",
-      position: "Full Stack Developer",
-      duration: "2022 - Present",
-    },
-    {
-      company: "Web Design Studio",
-      position: "Front-End Developer Intern",
-      duration: "Summer 2021",
-    },
-    {
-      company: "E-commerce Startup",
-      position: "Freelance Web Developer",
-      duration: "2020 - 2021",
-    },
-    {
-      company: "Tech Academy",
-      position: "Teaching Assistant",
-      duration: "2019 - 2020",
-    },
-    {
-      company: "Digital Agency",
-      position: "UI/UX Designer",
-      duration: "2018 - 2019",
-    },
-    {
-      company: "Software Development Firm",
-      position: "Junior Developer",
-      duration: "2017 - 2018",
+      company: "HairDAO",
+      position: "Frontend Developer",
+      duration: "Sep. 2022 - Dec. 2022",
     },
   ],
 };
@@ -97,37 +75,32 @@ const education = {
   icon: "/assets/resume/cap.svg",
   title: "My education",
   description:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quibusdam, sunt explicabo inventore.",
+    "As an international student and now become permanent resident at US, I have had the opportunity to collaborate, learn, and live with people from various countries, including South Korea, Brazil, and the United States. This has allowed me to gain a wide range of experiences.",
   items: [
     {
-      institution: "Online Course Platform",
-      degree: "Full Stack Web Development Bootcamp",
-      duration: "2023",
+      institution: "University of Southern California",
+      degree: "Computer Science and Computer Informatics",
+      duration: "Aug. 2022 - Present",
     },
     {
-      institution: "Codecademy",
-      degree: "Front-end Track",
-      duration: "2022",
+      institution: "Graded - The American School of São Paulo",
+      degree: "High School Diploma & IB Diploma",
+      duration: "Jan. 2019 - Jun. 2022",
     },
     {
-      institution: "Online Course",
-      degree: "Programming Course",
-      duration: "2020 - 2021",
+      institution: "MIT BeaverWorks",
+      degree: "BWSI Python Core 2021",
+      duration: "May. 2021 - Aug. 2022",
     },
     {
-      institution: "Tech Institute",
-      degree: "Certified Web Developer",
-      duration: "2019",
+      institution: "MIT BeaverWorks",
+      degree: "BWSI Version Control: Git & Github 2021",
+      duration: "May. 2021 - Aug. 2022",
     },
     {
-      institution: "Design School",
-      degree: "Diploma in Graphic Design",
-      duration: "2016 - 2018",
-    },
-    {
-      institution: "Community College",
-      degree: "Associate Degree in Computer Science",
-      duration: "2014 - 2016",
+      institution: "MIT BeaverWorks",
+      degree: "BWSI Medlytics 2021",
+      duration: "May. 2021 - Aug. 2022",
     },
   ],
 };
@@ -136,15 +109,19 @@ const education = {
 const skills = {
   title: "My skills",
   description:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates quibusdam, sunt explicabo inventore.",
+    "I excel at crafting elegant digital experiences and I am proficient in various programming languages and technologies",
   skillList: [
     {
-      icon: <FaHtml5 />,
-      name: "html 5",
+      icon: <PiFileCppBold/>,
+      name: "C++",
     },
     {
-      icon: <FaCss3 />,
-      name: "css 3",
+      icon: <FaJava/>,
+      name: "Java",
+    },
+    {
+      icon: <FaPython/>,
+      name: "Python",
     },
     {
       icon: <FaJs />,
@@ -159,12 +136,20 @@ const skills = {
       name: "next.js",
     },
     {
-      icon: <SiTailwindcss />,
-      name: "tailwind.css",
-    },
-    {
       icon: <FaNodeJs />,
       name: "node.js",
+    },
+    {
+      icon: <FaHtml5 />,
+      name: "html 5",
+    },
+    {
+      icon: <FaCss3 />,
+      name: "css 3",
+    },
+    {
+      icon: <SiTailwindcss />,
+      name: "tailwind.css",
     },
     {
       icon: <FaFigma />,
@@ -197,14 +182,14 @@ const Resume = () => {
     >
       <div className="container mx-auto">
         <Tabs
-          defaultValue="experience"
+          defaultValue="about"
           className="flex flex-col xl:flex-row gap-[60px]"
         >
           <TabsList className="flex flex-col w-full max-w-[380px] mx-auto xl:mx-0 gap-6">
-            <TabsTrigger value="experience">Experience</TabsTrigger>
-            <TabsTrigger value="education">Education</TabsTrigger>
-            <TabsTrigger value="skills">Skills</TabsTrigger>
             <TabsTrigger value="about">About me</TabsTrigger>
+            <TabsTrigger value="education">Education</TabsTrigger>
+            <TabsTrigger value="experience">Experience</TabsTrigger>
+            <TabsTrigger value="skills">Skills</TabsTrigger>
           </TabsList>
 
           {/* content */}
