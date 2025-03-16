@@ -22,7 +22,7 @@ const services = [
     num: "03",
     title: "Game Developments",
     description:
-      "Involves the development of interactive games with a focus on gameplay mechanics, UI/UX design, and real-time processing. I applied game development principles to create engaging and optimized games, exploring both 2D and 3D game engines.",
+      "Involves the development of interactive games with a focus on gameplay mechanics, CLI-based design, and real-time processing. I applied game development principles to create engaging and optimized games!",
     href: "https://github.com/KyungTae0820/projects/tree/main/03",
   },
   {

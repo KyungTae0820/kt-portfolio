@@ -37,7 +37,7 @@ const Home = () => {
             <h1 className="h1 mb-6">
               Hello, I'm <br /> <span className="text-accent">KT</span>  
             </h1>
-            <p className="max-w-[500px] mb-9 text-white/100">
+            <p className="max-w-[650px] mb-9 text-white/100">
               I'm a{" "}
               {showContent && (
                 <motion.span
@@ -52,8 +52,9 @@ const Home = () => {
                 </motion.span>
               )}
               {" "}at the University of Southern California, 
-            studying Computer Science. Some of my interests are mathematics, computer science, and electrical engineering. 
-            Outside of class, I love to play golf, listen to music, and travel around the world.
+            studying Computer Science. As a student with a passion for mathematics, computer science, and electrical engineering, 
+            I’m constantly exploring the intersection of these fields to solve complex problems. 
+            Outside of academics, I find joy in playing golf, listening to a wide variety of music, and traveling—experiencing new cultures and broadening my perspectives along the way.
             </p>
             {/* btn and socials */}
             <div className="flex flex-col xl:flex-row items-center gap-8">

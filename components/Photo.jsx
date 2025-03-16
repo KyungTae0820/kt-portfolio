@@ -21,7 +21,7 @@ const Photo = () => {
             opacity: 1,
             transition: { delay: 2, duration: 0.4, ease: "easeInOut" },
           }}
-          className="relative w-[80%] max-w-[400px] lg:w-[100%] lg:max-w-[800px] h-auto"
+          className="relative w-[70%] max-w-[400px] lg:w-[100%] lg:max-w-[800px] h-auto"
         >
           <Image
             src="/assets/photo.png"

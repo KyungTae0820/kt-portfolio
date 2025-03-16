@@ -9,10 +9,12 @@ import {
   FaReact,
   FaFigma,
   FaNodeJs,
+  
 } from "react-icons/fa";
 
 import { SiTailwindcss, SiNextdotjs } from "react-icons/si";
 import { PiFileCppBold } from "react-icons/pi";
+import { SiJupyter } from "react-icons/si";
 
 // about data
 const about = {
@@ -88,17 +90,17 @@ const education = {
       duration: "Jan. 2019 - Jun. 2022",
     },
     {
-      institution: "MIT BeaverWorks",
+      institution: "MIT BeaverWorks Summer Institute",
       degree: "BWSI Python Core 2021",
       duration: "May. 2021 - Aug. 2022",
     },
     {
-      institution: "MIT BeaverWorks",
+      institution: "MIT BeaverWorks Summer Institute",
       degree: "BWSI Version Control: Git & Github 2021",
       duration: "May. 2021 - Aug. 2022",
     },
     {
-      institution: "MIT BeaverWorks",
+      institution: "MIT BeaverWorks Summer Institute",
       degree: "BWSI Medlytics 2021",
       duration: "May. 2021 - Aug. 2022",
     },
@@ -126,6 +128,10 @@ const skills = {
     {
       icon: <FaJs />,
       name: "javascript",
+    },
+    {
+      icon: <SiJupyter />,
+      name: "Jupyter",
     },
     {
       icon: <FaReact />,
@@ -211,12 +217,12 @@ const Resume = () => {
                         >
                           <span className="text-accent">{item.duration}</span>
                           <h3 className="text-xl max-w-[260px] min-h-[60px] text-center lg:text-left">
-                            {item.position}
+                            {item.company}
                           </h3>
                           <div className="flex items-center gap-3">
                             {/* dot */}
                             <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                            <p className="text-white/60">{item.company}</p>
+                            <p className="text-white/60">{item.position}</p>
                           </div>
                         </li>
                       );
@@ -243,12 +249,12 @@ const Resume = () => {
                         >
                           <span className="text-accent">{item.duration}</span>
                           <h3 className="text-xl max-w-[260px] min-h-[60px] text-center lg:text-left">
-                            {item.degree}
+                            {item.institution}
                           </h3>
                           <div className="flex items-center gap-3">
                             {/* dot */}
                             <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                            <p className="text-white/60">{item.institution}</p>
+                            <p className="text-white/60">{item.degree}</p>
                           </div>
                         </li>
                       );
