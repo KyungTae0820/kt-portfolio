@@ -58,7 +58,7 @@ const Home = () => {
             </p>
             {/* btn and socials */}
             <div className="flex flex-col xl:flex-row items-center gap-8">
-              <a href="/resume.pdf" download className="inline-block">
+              <a href="/KT - Resume.pdf" download className="inline-block">
                 <Button
                   variant="outline"
                   size="lg"
