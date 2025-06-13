@@ -35,7 +35,7 @@ const Home = () => {
           <div className="text-center xl:text-left order-2 xl:order-none">
             <span className="text-4xl font-semibold">Fight On!✌️</span>
             <h1 className="h1 mb-6">
-              Hello, I'm <br /> <span className="text-accent">KT</span>  
+              Hi, I'm <br /> <span className="text-accent">KT</span>  
             </h1>
             <p className="max-w-[650px] mb-9 text-white/100">
               I'm a{" "}
