@@ -5,9 +5,9 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 const socials = [
   { icon: <FaGithub />, name: "Github", path: "https://github.com/KyungTae0820" },
-  { icon: <SiLeetcode />, name: "Leetcode", path: "https://leetcode.com/u/kt__0820/" },
-  { icon: <FaLinkedinIn />, name: "LinkedIn", path: "https://www.linkedin.com/in/kt-kim-42b96631a/" },
-  { icon: <FaInstagram />, name: "Instagram", path: "https://www.instagram.com/we._.tech/" },
+  // { icon: <SiLeetcode />, name: "Leetcode", path: "https://leetcode.com/u/kt__0820/" },
+  { icon: <FaLinkedinIn />, name: "LinkedIn", path: "https://www.linkedin.com/in/kktkim" },
+  // { icon: <FaInstagram />, name: "Instagram", path: "https://www.instagram.com/kt__0820/" },
 ];
 
 const Social = ({ containerStyles, iconStyles }) => {

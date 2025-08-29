@@ -9,7 +9,7 @@ import {
   FaReact,
   FaFigma,
   FaNodeJs,
-  
+
 } from "react-icons/fa";
 
 import { SiTailwindcss, SiNextdotjs } from "react-icons/si";
@@ -44,7 +44,7 @@ const about = {
     },
     {
       fieldName: "Email",
-      fieldValue: "kyungtae@usc.edu",
+      fieldValue: "kimkyungtae12386@gmail.com",
     },
     {
       fieldName: "Freelance",
@@ -62,12 +62,25 @@ const experience = {
   icon: "/assets/resume/badge.svg",
   title: "My experience",
   description:
-    "As a sophomore in college, I am eager to gain experience at various companies in the future!",
+    "As a Junior in college, I am eager to gain experience at various companies in the future!",
   items: [
     {
+      company: "VIOLA",
+      position: "Chief Technology Officer (CTO)",
+      duration: "Aug. 2025 - Present",
+      link: "https://www.theviola.co",
+    },
+    {
+      company: "Iris AI",
+      position: "Software Engineer Intern",
+      duration: "Jun. 2025 - Aug. 2025",
+      link: "https://apps.apple.com/ng/app/iris-ai-assistant/id6473088049",
+    },
+    {
       company: "HairDAO",
-      position: "Frontend Developer",
+      position: "Software Engineer Intern",
       duration: "Sep. 2022 - Dec. 2022",
+      link: "https://www.hairdao.xyz/",
     },
   ],
 };
@@ -83,6 +96,11 @@ const education = {
       institution: "University of Southern California",
       degree: "Computer Science and Computer Informatics",
       duration: "Aug. 2022 - Present",
+    },
+    {
+      institution: "Republic of Korea Army",
+      degree: "Artillery - Towed Howitzer Gunner",
+      duration: "Jun. 2023 - Dec. 2024",
     },
     {
       institution: "Graded - The American School of São Paulo",
@@ -114,15 +132,15 @@ const skills = {
     "I excel at crafting elegant digital experiences and I am proficient in various programming languages and technologies",
   skillList: [
     {
-      icon: <PiFileCppBold/>,
+      icon: <PiFileCppBold />,
       name: "C++",
     },
     {
-      icon: <FaJava/>,
+      icon: <FaJava />,
       name: "Java",
     },
     {
-      icon: <FaPython/>,
+      icon: <FaPython />,
       name: "Python",
     },
     {
@@ -213,17 +231,29 @@ const Resume = () => {
                       return (
                         <li
                           key={index}
-                          className="bg-[#232329] h-[184px] py-6 px-10 rounded-xl flex flex-col justify-center items-center lg:items-start gap-1"
+                          className="bg-[#232329] h-[180px] py-6 px-8 rounded-xl 
+                           flex flex-col justify-center items-center lg:items-start gap-2"
                         >
-                          <span className="text-accent">{item.duration}</span>
-                          <h3 className="text-xl max-w-[260px] min-h-[60px] text-center lg:text-left">
+                          <span className="text-accent text-sm">{item.duration}</span>
+                          <h3 className="text-lg font-semibold max-w-[180px] text-center lg:text-left">
                             {item.company}
                           </h3>
-                          <div className="flex items-center gap-3">
-                            {/* dot */}
+                          <div className="flex items-center gap-2">
                             <span className="w-[6px] h-[6px] rounded-full bg-accent"></span>
-                            <p className="text-white/60">{item.position}</p>
+                            <p className="text-white/60 text-sm max-w-[180px]">
+                              {item.position}
+                            </p>
                           </div>
+                          {item.link && (
+                            <a
+                              href={item.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs text-blue-400 hover:underline break-all"
+                            >
+                              {item.link}
+                            </a>
+                          )}
                         </li>
                       );
                     })}

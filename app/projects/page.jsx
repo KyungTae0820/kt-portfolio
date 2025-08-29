@@ -16,7 +16,7 @@ const services = [
     title: "Constructions and Implemenations on Full-Stack Embedded Systems",
     description:
       "Designed and developed full-stack embedded systems that integrate hardware and software. From building the embedded circuit to implementing the control systems on the software side, the project explores the full development cycle of an embedded solution.",
-    href: "https://github.com/KyungTae0820/projects/tree/main/02",
+    href: "https://www.instagram.com/we._.tech/",
   },
   {
     num: "03",
@@ -50,7 +50,7 @@ const Services = () => {
         >
           <h1 className="text-3xl font-bold text-white">Explore the various projects that I have worked on!</h1>
           <p className="text-white/80">
-            Notice: By clicking the circle with the arrow, you will be redirected to the GitHub page.
+            Notice: By clicking the circle with the arrow, you will be redirected to the GitHub or Instagram page.
           </p>
         </motion.div>
         <motion.div
