@@ -44,7 +44,7 @@ This is my personal website showcasing my experiences, projects, and skills as a
 ## 📫 Contact
 
 - Email: kimkyungtae12386@gmail.com
-- LinkedIn: [KyungTae Kim](www.linkedin.com/in/kktkim)
+- LinkedIn: [KyungTae Kim](https://www.linkedin.com/in/kktkim)
 - GitHub: [KyungTae0820](https://github.com/KyungTae0820)
 - Website: [KT Portfolio](https://kt-portfolio-nu.vercel.app/)
 
