@@ -54,14 +54,6 @@ const GamesGrid = () => {
                 <div className="flex flex-col items-center text-center gap-3 p-6 flex-1">
                   <h2 className="text-2xl font-bold text-accent">{game.title}</h2>
                   <p className="text-white/80 text-sm">{game.tagline}</p>
-                  <h3 className="text-accent text-sm mt-2">How To Play:</h3>
-                  <ul className="text-xs text-white/90 leading-relaxed">
-                    {game.controls.map((control) => (
-                      <li key={control.action}>
-                        {control.action}: <span className="text-accent">{control.key}</span>
-                      </li>
-                    ))}
-                  </ul>
                   <span className="mt-auto pt-2 text-[11px] uppercase tracking-[2px] text-white/40">
                     {game.lab}
                     {game.gl ? " · 3D / WebGL 2" : " · 2D"}
