@@ -85,8 +85,7 @@ const GamePlayer = ({ game }) => {
           <aside className="xl:w-[340px] shrink-0 bg-[#232329] rounded-xl p-6 flex flex-col gap-5">
             <div className="flex flex-col gap-1">
               <span className="text-xs uppercase tracking-[2px] text-white/50">
-                {game.lab}
-                {game.gl ? " · 3D / WebGL 2" : " · 2D"}
+                {game.gl ? "3D" : "2D"}
               </span>
               <h1 className="text-3xl font-bold text-accent">{game.title}</h1>
               <p className="text-white/80">{game.tagline}</p>

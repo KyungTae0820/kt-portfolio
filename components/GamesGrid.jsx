@@ -55,8 +55,7 @@ const GamesGrid = () => {
                   <h2 className="text-2xl font-bold text-accent">{game.title}</h2>
                   <p className="text-white/80 text-sm">{game.tagline}</p>
                   <span className="mt-auto pt-2 text-[11px] uppercase tracking-[2px] text-white/40">
-                    {game.lab}
-                    {game.gl ? " · 3D / WebGL 2" : " · 2D"}
+                    {game.gl ? "3D" : "2D"}
                   </span>
                 </div>
               </Link>
