@@ -39,15 +39,19 @@ const GamePlayer = ({ game }) => {
   const enterFullscreen = () => stageRef.current?.requestFullscreen?.();
 
   return (
-    <section className="min-h-[80vh] flex flex-col justify-center py-12 xl:py-0">
+    <section className="flex flex-col justify-center py-8 xl:py-2">
       <div className="container mx-auto">
         <motion.div {...fadeIn} className="flex flex-col xl:flex-row gap-8">
           {/* game */}
           <div className="flex-1 min-w-0 flex flex-col gap-4">
+            {/* Sized to fit the window height too, so the page does not scroll on laptops */}
             <div
               ref={stageRef}
               className="w-full mx-auto bg-black rounded-xl overflow-hidden shadow-2xl"
-              style={{ aspectRatio: `${game.width} / ${game.height}`, maxWidth: Math.round(game.width * 1.25) }}
+              style={{
+                aspectRatio: `${game.width} / ${game.height}`,
+                maxWidth: `min(${Math.round(game.width * 1.25)}px, calc((100svh - 230px) * ${game.width / game.height}))`,
+              }}
             >
               {/* Mounted right away so the download runs during the page intro animation */}
               <iframe
@@ -82,13 +86,13 @@ const GamePlayer = ({ game }) => {
           </div>
 
           {/* info */}
-          <aside className="xl:w-[340px] shrink-0 bg-[#232329] rounded-xl p-6 flex flex-col gap-5">
+          <aside className="xl:w-[320px] shrink-0 bg-[#232329] rounded-xl p-5 flex flex-col gap-3">
             <div className="flex flex-col gap-1">
               <span className="text-xs uppercase tracking-[2px] text-white/50">
                 {game.gl ? "3D" : "2D"}
               </span>
-              <h1 className="text-3xl font-bold text-accent">{game.title}</h1>
-              <p className="text-white/80">{game.tagline}</p>
+              <h1 className="text-2xl font-bold text-accent">{game.title}</h1>
+              <p className="text-white/80 text-sm leading-relaxed">{game.tagline}</p>
             </div>
             <div className="flex flex-col gap-2">
               <h2 className="text-accent">How To Play:</h2>
@@ -96,7 +100,7 @@ const GamePlayer = ({ game }) => {
                 {game.controls.map((control) => (
                   <li
                     key={control.action}
-                    className="flex justify-between gap-4 border-b border-white/10 py-2 text-sm"
+                    className="flex justify-between gap-4 border-b border-white/10 py-1 text-sm"
                   >
                     <span className="text-white/80">{control.action}</span>
                     <span className="text-accent font-semibold text-right">{control.key}</span>
@@ -104,7 +108,7 @@ const GamePlayer = ({ game }) => {
                 ))}
               </ul>
             </div>
-            <ul className="flex flex-col gap-2 text-sm text-white/60">
+            <ul className="flex flex-col gap-1 text-xs leading-relaxed text-white/60">
               <li>Press Play, then click the game once so it receives your keyboard.</li>
               {game.notes?.map((note) => (
                 <li key={note}>{note}</li>

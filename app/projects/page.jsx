@@ -41,26 +41,26 @@ const fadeIn = {
 };
 
 const arrowStyles =
-  "w-[70px] h-[70px] rounded-full bg-white group-hover:bg-accent transition-all duration-500 flex justify-center items-center hover:-rotate-45";
+  "w-[56px] h-[56px] rounded-full bg-white group-hover:bg-accent transition-all duration-500 flex justify-center items-center hover:-rotate-45";
 
 const Services = () => {
   return (
-    <section className="min-h-[80vh] flex flex-col justify-center py-12 xl:py-0">
+    <section className="flex flex-col justify-center py-8 xl:py-2">
       <div className="container mx-auto">
-        <motion.div {...fadeIn} className="text-center mb-12">
+        <motion.div {...fadeIn} className="text-center mb-8">
           <h1 className="text-3xl font-bold text-white">Explore the various projects that I have worked on!</h1>
           <p className="text-white/80">
             Click the arrow to open each project. Game Developments opens a page where you can play my games in
             the browser; the others open GitHub or Instagram in a new tab.
           </p>
         </motion.div>
-        <motion.div {...fadeIn} className="grid grid-cols-1 md:grid-cols-2 gap-[60px]">
+        <motion.div {...fadeIn} className="grid grid-cols-1 md:grid-cols-2 gap-x-[60px] gap-y-8">
           {services.map((service) => {
             const isInternal = service.href.startsWith("/");
             return (
               <div
                 key={service.num}
-                className="flex-1 flex flex-col justify-between gap-6 min-h-[200px] group"
+                className="flex-1 flex flex-col justify-between gap-3 group"
               >
                 {/* top */}
                 <div className="w-full flex justify-between items-center">
@@ -69,7 +69,7 @@ const Services = () => {
                   </div>
                   {isInternal ? (
                     <Link href={service.href} aria-label={`Open ${service.title}`} className={arrowStyles}>
-                      <BsArrowDownRight className="text-primary text-3xl" />
+                      <BsArrowDownRight className="text-primary text-2xl" />
                     </Link>
                   ) : (
                     <a
@@ -79,7 +79,7 @@ const Services = () => {
                       aria-label={`Open ${service.title} in a new tab`}
                       className={arrowStyles}
                     >
-                      <BsArrowDownRight className="text-primary text-3xl" />
+                      <BsArrowDownRight className="text-primary text-2xl" />
                     </a>
                   )}
                 </div>
@@ -88,7 +88,7 @@ const Services = () => {
                   {service.title}
                 </h2>
                 {/* description */}
-                <p className="text-white/80">{service.description}</p>
+                <p className="text-white/80 text-sm leading-relaxed">{service.description}</p>
                 {/* border */}
                 <div className="border-b border-white/20 w-full"></div>
               </div>
