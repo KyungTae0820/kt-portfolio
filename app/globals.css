@@ -20,6 +20,6 @@
   }
 
   .text-outline-hover {
-    -webkit-text-stroke: 1px #FCB500;
+    -webkit-text-stroke: 1px theme('colors.accent.DEFAULT');
   }
 }

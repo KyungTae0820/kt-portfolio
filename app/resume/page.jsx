@@ -15,6 +15,18 @@ import {
 import { SiTailwindcss, SiNextdotjs } from "react-icons/si";
 import { PiFileCppBold } from "react-icons/pi";
 import { SiJupyter } from "react-icons/si";
+import { motion } from "framer-motion";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 // about data
 const about = {
@@ -59,7 +71,6 @@ const about = {
 
 // experience data
 const experience = {
-  icon: "/assets/resume/badge.svg",
   title: "My experience",
   description:
     "As a Junior in college, I am eager to gain experience at various companies in the future!",
@@ -68,7 +79,7 @@ const experience = {
       company: "VIOLA",
       position: "Chief Technology Officer (CTO)",
       duration: "Aug. 2025 - Present",
-      link: " https://www.theviola.co",
+      link: "https://www.theviola.co",
       extraLink: "https://www.canva.com/design/DAGyzKSVyxw/x4J1JpmuKmog6DYOFkfmSg/edit",
     },
     {
@@ -88,7 +99,6 @@ const experience = {
 
 // education data
 const education = {
-  icon: "/assets/resume/cap.svg",
   title: "My education",
   description:
     "As an international student and now become permanent resident at US, I have had the opportunity to collaborate, learn, and live with people from various countries, including South Korea, Brazil, and the United States. This has allowed me to gain a wide range of experiences.",
@@ -183,18 +193,6 @@ const skills = {
   ],
 };
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { motion } from "framer-motion";
-
 const Resume = () => {
   return (
     <motion.div
@@ -206,8 +204,10 @@ const Resume = () => {
       className="min-h-[80vh] flex items-center justify-center py-12 xl:py-0"
     >
       <div className="container mx-auto">
+        <h1 className="sr-only">Resume of KyungTae Kim</h1>
         <Tabs
           defaultValue="about"
+          orientation="vertical"
           className="flex flex-col xl:flex-row gap-[60px]"
         >
           <TabsList className="flex flex-col w-full max-w-[380px] mx-auto xl:mx-0 gap-6">
@@ -320,7 +320,10 @@ const Resume = () => {
                       <li key={index}>
                         <TooltipProvider delayDuration={100}>
                           <Tooltip>
-                            <TooltipTrigger className="w-full h-[150px] bg-[#232329] rounded-xl flex justify-center items-center group">
+                            <TooltipTrigger
+                            aria-label={skill.name}
+                            className="w-full h-[150px] bg-[#232329] rounded-xl flex justify-center items-center group"
+                          >
                               <div className="text-6xl group-hover:text-accent transition-all duration-300">
                                 {skill.icon}
                               </div>
