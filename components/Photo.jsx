@@ -3,12 +3,10 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-// Where the circular crop sits inside /assets/photo.png (886 x 920), measured from its transparency:
-// center at 54.06% / 57.68% of the image, diameter 89.07% of the image width.
-// The SVG circle below has r=250 in a 506 viewBox, so it is drawn 90.14% (= 89.07 * 506 / 500) of the image width.
-const CROP_CENTER_X = "54.06%";
-const CROP_CENTER_Y = "57.68%";
-const CIRCLE_SIZE = "90.14%";
+// The box is the yellow circle's square; the photo is placed so the whole portrait (head and hands
+// included) sits just inside the circle. Numbers come from the smallest circle enclosing the opaque
+// pixels of /assets/photo.png (886 x 920): center (465.4, 477.6), radius 446.5, plus a 4% margin.
+const PHOTO_STYLE = { width: "94.27%", left: "0.48%", top: "-0.82%" };
 
 const Photo = () => {
   return (
@@ -18,8 +16,8 @@ const Photo = () => {
         opacity: 1,
         transition: { delay: 2, duration: 0.4, ease: "easeIn" },
       }}
-      // Fixed widths so the size never depends on the screen's pixel density
-      className="relative w-[333px] sm:w-[388px] md:w-[450px] xl:w-[min(555px,calc(100svh-300px))]"
+      // Fixed sizes so the photo never depends on the screen's pixel density
+      className="relative aspect-square w-[300px] sm:w-[350px] md:w-[450px] xl:w-[min(500px,calc(100svh-320px))]"
     >
       <Image
         src="/assets/photo.png"
@@ -27,15 +25,15 @@ const Photo = () => {
         quality={85}
         width={886}
         height={920}
-        sizes="(max-width: 640px) 333px, (max-width: 768px) 388px, 555px"
+        sizes="(max-width: 640px) 283px, (max-width: 768px) 330px, 472px"
         alt="Portrait of KyungTae Kim"
-        className="w-full h-auto"
+        className="absolute h-auto max-w-none"
+        style={PHOTO_STYLE}
       />
 
-      {/* circle animation, centered on the photo's circular crop */}
+      {/* circle animation around the photo */}
       <motion.svg
-        className="absolute aspect-square -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-        style={{ left: CROP_CENTER_X, top: CROP_CENTER_Y, width: CIRCLE_SIZE }}
+        className="absolute inset-0 w-full h-full pointer-events-none"
         fill="transparent"
         viewBox="0 0 506 506"
         xmlns="http://www.w3.org/2000/svg"

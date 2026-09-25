@@ -31,8 +31,8 @@ const Home = () => {
   }, []);
 
   return (
-    <section className="h-full">
-      <div className="container mx-auto h-full">
+    <section className="h-full xl:min-h-[calc(100svh-108px)] xl:flex xl:flex-col xl:justify-center xl:pb-4">
+      <div className="container mx-auto">
         <div className="flex flex-col xl:flex-row items-center justify-between gap-8 xl:gap-12 xl:pt-2 xl:pb-10">
           {/* text */}
           <div className="text-center xl:text-left order-2 xl:order-none">
