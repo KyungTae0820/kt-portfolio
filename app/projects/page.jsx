@@ -23,7 +23,7 @@ const services = [
     num: "03",
     title: "Game Developments",
     description:
-      "C++ games built with SDL3 and OpenGL, from Pong and Pac-Man to a 3D Portal campaign, compiled to WebAssembly so you can play them right here in the browser.",
+      "C++ games built with SDL3 and OpenGL, from Pong and Pac-Man to a 3D Portal campaign, with a focus on gameplay mechanics, game AI, collision, and real-time rendering. Compiled to WebAssembly so you can play them right here in the browser.",
     href: "/projects/games",
   },
   {
@@ -54,13 +54,13 @@ const Services = () => {
             the browser; the others open GitHub or Instagram in a new tab.
           </p>
         </motion.div>
-        <motion.div {...fadeIn} className="grid grid-cols-1 md:grid-cols-2 gap-x-[60px] gap-y-8">
+        <motion.div {...fadeIn} className="grid grid-cols-1 md:grid-cols-2 items-start gap-x-[60px] gap-y-8">
           {services.map((service) => {
             const isInternal = service.href.startsWith("/");
             return (
               <div
                 key={service.num}
-                className="flex-1 flex flex-col justify-between gap-3 group"
+                className="flex-1 flex flex-col gap-3 group"
               >
                 {/* top */}
                 <div className="w-full flex justify-between items-center">

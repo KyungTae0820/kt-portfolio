@@ -31,11 +31,11 @@ const GameThumb = ({ game }) =>
 
 const GamesGrid = () => {
   return (
-    <section className="min-h-[80vh] flex flex-col justify-center py-12 xl:py-0">
+    <section className="flex flex-col justify-center pt-8 pb-16 xl:pt-2">
       <div className="container mx-auto">
         <motion.div {...fadeIn} className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-white">Game Developments</h1>
-          <p className="text-white/80 max-w-[760px] mx-auto">
+          <h1 className="text-3xl font-bold text-white mb-3">Game Developments</h1>
+          <p className="text-white/80 max-w-[760px] mx-auto text-balance">
             C++ games I built with SDL3 and OpenGL, compiled to WebAssembly with Emscripten. Pick one to play it right here. A desktop browser and keyboard work best.
           </p>
         </motion.div>
@@ -47,13 +47,13 @@ const GamesGrid = () => {
                 href={`/projects/games/${game.slug}`}
                 className="group h-full flex flex-col bg-[#232329] rounded-xl overflow-hidden border-l-4 border-accent/70 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:border-accent hover:shadow-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
-                <div className="relative w-full aspect-[4/3] bg-black overflow-hidden">
+                <div className="relative w-full aspect-video bg-black overflow-hidden">
                   <GameThumb game={game} />
                 </div>
                 <div className="flex flex-col items-center text-center gap-3 p-6 flex-1">
                   <h2 className="text-2xl font-bold text-accent">{game.title}</h2>
-                  <p className="text-white/80 text-sm">{game.tagline}</p>
-                  <span className="mt-auto pt-2 text-[11px] uppercase tracking-[2px] text-white/40">
+                  <p className="text-white/80 text-sm text-balance">{game.tagline}</p>
+                  <span className="mt-auto pt-2 text-xs uppercase tracking-[2px] text-white/60">
                     {game.gl ? "3D" : "2D"}
                   </span>
                 </div>

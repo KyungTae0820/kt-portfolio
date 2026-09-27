@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Build the C++ games with Emscripten and copy the web build into public/games/<slug>/.
 #
-# Usage:  scripts/build-games.sh [slug ...]     (no arguments = all games)
+# Usage:  scripts/build-games.sh [slug ...]                 (no arguments = all games)
+#         scripts/build-games.sh --pages-only [slug ...]    only re-create index.html from the template
 # Env:    LABS_DIR, EMSDK_DIR, CPM_SOURCE_CACHE, JOBS, EXTRA_LINK_FLAGS
 set -euo pipefail
 
@@ -31,6 +32,30 @@ GAMES=(
   "mariokart|Lab08|Mario Kart|1024|768|auto"
   "portal|Lab12|Portal|1024|768|auto"
 )
+
+PAGES_ONLY=0
+if [[ "${1:-}" == "--pages-only" ]]; then PAGES_ONLY=1; shift; fi
+
+render_page() { # slug lab title width height rendering build_id
+  sed -e "s|__NAME__|$2|g" -e "s|__TITLE__|$3|g" -e "s|__WIDTH__|$4|g" \
+      -e "s|__HEIGHT__|$5|g" -e "s|__RENDERING__|$6|g" -e "s|__BUILD__|$7|g" \
+      "$TEMPLATE" > "$OUT_ROOT/$1/index.html"
+}
+
+if ((PAGES_ONLY)); then
+  selected=("$@")
+  for entry in "${GAMES[@]}"; do
+    IFS='|' read -r slug lab title width height rendering <<<"$entry"
+    if ((${#selected[@]})) && [[ " ${selected[*]} " != *" $slug "* ]]; then continue; fi
+    page="$OUT_ROOT/$slug/index.html"
+    [[ -f "$OUT_ROOT/$slug/$lab.js" ]] || { echo "no build for $slug yet; run without --pages-only first" >&2; exit 1; }
+    # Keep the existing build id so browsers do not re-download unchanged game files
+    build_id="$(sed -n "s/.*var BUILD = '\([0-9]*\)'.*/\1/p" "$page" 2>/dev/null | head -1)"
+    render_page "$slug" "$lab" "$title" "$width" "$height" "$rendering" "${build_id:-$BUILD_ID}"
+    echo "page: $slug (build ${build_id:-$BUILD_ID})"
+  done
+  exit 0
+fi
 
 if [[ ! -f "$EMSDK_DIR/emsdk_env.sh" ]]; then
   echo "emsdk not found at $EMSDK_DIR. Install it with:" >&2
@@ -67,9 +92,7 @@ for entry in "${GAMES[@]}"; do
   cp "$src/embuild/$lab.js" "$src/embuild/$lab.wasm" "$out/"
   if [[ -f "$src/embuild/$lab.data" ]]; then cp "$src/embuild/$lab.data" "$out/"; else rm -f "$out/$lab.data"; fi
   # Our own page replaces the Emscripten-generated LabXX.html.
-  sed -e "s|__NAME__|$lab|g" -e "s|__TITLE__|$title|g" -e "s|__WIDTH__|$width|g" \
-      -e "s|__HEIGHT__|$height|g" -e "s|__RENDERING__|$rendering|g" -e "s|__BUILD__|$BUILD_ID|g" \
-      "$TEMPLATE" > "$out/index.html"
+  render_page "$slug" "$lab" "$title" "$width" "$height" "$rendering" "$BUILD_ID"
   du -h "$out"/* | sed 's/^/    /'
   built=$((built + 1))
 done

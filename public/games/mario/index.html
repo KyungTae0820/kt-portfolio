@@ -18,17 +18,26 @@
   #overlay { position: absolute; inset: 0; display: flex; flex-direction: column; gap: 16px;
              align-items: center; justify-content: center; text-align: center; padding: 24px;
              background: rgba(15, 15, 18, .94); }
+  #overlay.paused { background: rgba(15, 15, 18, .78); }
   #overlay[hidden] { display: none; }
   h1 { margin: 0; font-size: 24px; color: #FFCC00; }
   #status { color: rgba(255, 255, 255, .7); font-size: 14px; min-height: 1.2em; }
+  #overlay.paused #status { color: #fff; font-size: 18px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; }
   #bar { width: min(360px, 80vw); height: 6px; border-radius: 999px; background: rgba(255, 255, 255, .12); overflow: hidden; }
   #bar > div { height: 100%; width: 0; background: #FFCC00; transition: width .2s; }
   #bar.indeterminate > div { width: 30%; animation: slide 1.1s ease-in-out infinite; }
   @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(340%); } }
-  #play { background: #FFCC00; color: #990000; border: 0; border-radius: 999px; padding: 12px 32px;
-          font: inherit; font-size: 16px; font-weight: 700; letter-spacing: 1px; cursor: pointer; }
-  #play:hover { background: #FFB600; }
-  #play[hidden] { display: none; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  button { border-radius: 999px; padding: 12px 32px; font: inherit; font-size: 16px; font-weight: 700;
+           letter-spacing: 1px; cursor: pointer; transition: background .2s, color .2s; }
+  button.primary { background: #FFCC00; color: #990000; border: 2px solid #FFCC00; }
+  button.primary:hover { background: #FFB600; border-color: #FFB600; }
+  button.secondary { background: transparent; color: #FFCC00; border: 2px solid #FFCC00; }
+  button.secondary:hover { background: #FFCC00; color: #990000; }
+  button[hidden] { display: none; }
+  /* Brand-colored focus glow instead of the browser's default blue ring */
+  button:focus { outline: none; }
+  button:focus-visible, button:focus { box-shadow: 0 0 18px 2px rgba(255, 204, 0, .45); }
   .hint { color: rgba(255, 255, 255, .55); font-size: 12px; max-width: 420px; line-height: 1.6; }
 </style>
 </head>
@@ -39,32 +48,96 @@
     <h1>Super Mario Bros.</h1>
     <div id="status">Downloading…</div>
     <div id="bar" class="indeterminate"><div></div></div>
-    <button id="play" type="button" hidden>PLAY</button>
-    <div class="hint">Click the game to focus it, then use the keyboard.<br>Sound starts after your first click.</div>
+    <div class="actions">
+      <button id="play" class="primary" type="button" hidden>PLAY</button>
+      <button id="continue" class="primary" type="button" hidden>CONTINUE</button>
+      <button id="quit" class="secondary" type="button" hidden>QUIT</button>
+    </div>
+    <div class="hint" id="hint">Click the game to focus it, then use the keyboard.<br>Press Esc or click outside the game to pause.</div>
   </div>
 </div>
 <script>
   var BUILD = '202609250110';
+  var GAMES_PAGE = '/projects/games';
   var AUTOPLAY = /[?&]autoplay=1/.test(location.search);
+  var EMBEDDED = window.parent !== window;
   var canvas = document.getElementById('canvas');
   var overlay = document.getElementById('overlay');
   var statusEl = document.getElementById('status');
+  var hintEl = document.getElementById('hint');
   var bar = document.getElementById('bar');
   var fill = bar.firstElementChild;
   var playBtn = document.getElementById('play');
-  var started = false;
+  var continueBtn = document.getElementById('continue');
+  var quitBtn = document.getElementById('quit');
+
+  // loading -> ready -> running <-> paused
+  var state = 'loading';
+  var hadPointerLock = false;   // restore mouse capture on Continue (Portal)
+  var releasingLock = false;    // we released it ourselves, so do not treat it as Esc
+  var keepPlayingUntil = 0;     // the host page asked not to pause (e.g. Fullscreen button)
+  var pausedAt = 0;             // one Esc press can both release the mouse and reach the page
+
+  function tellHost(type) {
+    if (EMBEDDED) { try { parent.postMessage({ source: 'kt-game', type: type }, location.origin); } catch (e) {} }
+  }
+
+  function audioContext() { return Module.SDL3 && Module.SDL3.audioContext; }
 
   function fail(msg) {
-    overlay.hidden = false; playBtn.hidden = true; bar.hidden = true;
+    state = 'error';
+    overlay.hidden = false; overlay.classList.remove('paused');
+    playBtn.hidden = continueBtn.hidden = true; quitBtn.hidden = false; bar.hidden = true;
     statusEl.textContent = msg;
   }
 
   function start() {
-    if (started) return;
-    started = true;
+    if (state !== 'ready') return;
+    state = 'running';
     overlay.hidden = true;
     canvas.focus();
     try { Module.callMain([]); } catch (e) { if (e !== 'unwind' && !(e && e.name === 'ExitStatus')) fail('Error: ' + e); }
+    tellHost('running');
+  }
+
+  function pause() {
+    if (state !== 'running') return;
+    state = 'paused';
+    pausedAt = Date.now();
+    if (Module.pauseMainLoop) Module.pauseMainLoop();
+    var ctx = audioContext();
+    if (ctx && ctx.state === 'running') ctx.suspend();
+    hadPointerLock = document.pointerLockElement === canvas;
+    if (document.pointerLockElement) { releasingLock = true; document.exitPointerLock(); }
+    overlay.classList.add('paused');
+    statusEl.textContent = 'Paused';
+    bar.hidden = true; playBtn.hidden = true; continueBtn.hidden = false; quitBtn.hidden = false;
+    hintEl.innerHTML = 'Press Esc or Continue to keep playing.';
+    overlay.hidden = false;
+    // Only take focus if this frame still has it; never pull focus back from the host page
+    if (document.hasFocus()) continueBtn.focus();
+    tellHost('paused');
+  }
+
+  function resume() {
+    if (state !== 'paused') return;
+    state = 'running';
+    overlay.hidden = true; overlay.classList.remove('paused');
+    var ctx = audioContext();
+    if (ctx && ctx.state === 'suspended') ctx.resume();
+    if (Module.resumeMainLoop) Module.resumeMainLoop();
+    canvas.focus();
+    if (hadPointerLock && canvas.requestPointerLock) {
+      // Runs inside the click or key press, so the browser allows it; if it is too soon after
+      // Esc, the game re-captures the mouse on the next click instead.
+      try { var p = canvas.requestPointerLock(); if (p && p.catch) p.catch(function () {}); } catch (e) {}
+    }
+    tellHost('running');
+  }
+
+  function quit() {
+    if (state === 'running') pause();
+    if (EMBEDDED) tellHost('quit'); else location.href = GAMES_PAGE;
   }
 
   var Module = {
@@ -76,7 +149,7 @@
     print: function (t) { console.log(t); },
     printErr: function (t) { console.warn(t); },
     setStatus: function (text) {
-      if (!text || started) return;
+      if (!text || state !== 'loading') return;
       var m = text.match(/([^(]+)\((\d+(?:\.\d+)?)\/(\d+)\)/);
       if (m) {
         bar.classList.remove('indeterminate');
@@ -87,6 +160,7 @@
       }
     },
     onRuntimeInitialized: function () {
+      state = 'ready';
       if (AUTOPLAY) { start(); return; }
       bar.hidden = true;
       statusEl.textContent = 'Ready';
@@ -97,10 +171,48 @@
   };
 
   playBtn.addEventListener('click', start);
+  continueBtn.addEventListener('click', resume);
+  quitBtn.addEventListener('click', quit);
+
+  // Esc pauses and resumes. While the game is not running, key presses stay out of the game
+  // (key releases still reach it, so a key held when pausing is not stuck afterwards).
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      e.preventDefault(); e.stopImmediatePropagation();
+      if (state === 'running') pause(); else if (state === 'paused' && Date.now() - pausedAt > 400) resume();
+      return;
+    }
+    if (state !== 'running') e.stopImmediatePropagation();
+  }, true);
+  window.addEventListener('keypress', function (e) { if (state !== 'running') e.stopImmediatePropagation(); }, true);
+
+  // With the mouse captured, the browser uses Esc to release it and the page never sees the key.
+  document.addEventListener('pointerlockchange', function () {
+    if (document.pointerLockElement) return;
+    if (releasingLock) { releasingLock = false; return; }
+    pause();
+  });
+
+  // Clicking outside the game (or switching tabs/apps) pauses it.
+  window.addEventListener('blur', function () {
+    setTimeout(function () {
+      if (state === 'running' && !document.hasFocus() && Date.now() > keepPlayingUntil) pause();
+    }, 150);
+  });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) pause(); });
+
+  // Messages from the portfolio page that hosts this game.
+  window.addEventListener('message', function (e) {
+    if (e.origin !== location.origin || !e.data || e.data.source !== 'kt-portfolio') return;
+    if (e.data.type === 'keep-playing') keepPlayingUntil = Date.now() + 1500;
+    if (e.data.type === 'pause') pause();
+    if (e.data.type === 'focus' && state === 'running') canvas.focus();
+  });
+
   canvas.addEventListener('mousedown', function () { canvas.focus(); });
-  window.addEventListener('focus', function () { if (started) canvas.focus(); });
+  window.addEventListener('focus', function () { if (state === 'running') canvas.focus(); });
   canvas.addEventListener('webglcontextlost', function (e) { e.preventDefault(); fail('The graphics context was lost. Reload the page.'); });
-  window.addEventListener('error', function (e) { if (!started || !overlay.hidden) fail('Error: ' + e.message); });
+  window.addEventListener('error', function (e) { if (state === 'loading' || state === 'ready') fail('Error: ' + e.message); });
 </script>
 <script async src="Lab04.js?v=202609250110"></script>
 </body>

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { FiArrowLeft, FiExternalLink, FiMaximize, FiRotateCcw } from "react-icons/fi";
 
@@ -28,15 +29,37 @@ const GamePlayer = ({ game }) => {
   const stageRef = useRef(null);
   const [runId, setRunId] = useState(0); // bumping it remounts the iframe (restart)
   const [missing, setMissing] = useState([]);
+  const router = useRouter();
   const src = gameSrc(game);
 
   useEffect(() => {
     setMissing(findMissingFeatures(game.requires));
   }, [game.requires]);
 
+  // The game page inside the iframe asks to leave when the player picks Quit
+  useEffect(() => {
+    const onMessage = (event) => {
+      if (event.origin !== window.location.origin || event.data?.source !== "kt-game") return;
+      if (event.data.type === "quit") router.push("/projects/games");
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, [router]);
+
+  const tellGame = (type) =>
+    frameRef.current?.contentWindow?.postMessage({ source: "kt-portfolio", type }, window.location.origin);
+
   // The game listens for keys on its own window, so hand it focus once it loads.
   const focusGame = () => frameRef.current?.contentWindow?.focus();
-  const enterFullscreen = () => stageRef.current?.requestFullscreen?.();
+  // Fullscreen should not pause the game: warn it before focus moves, then hand focus back
+  const enterFullscreen = async () => {
+    try {
+      await stageRef.current?.requestFullscreen?.();
+    } finally {
+      focusGame();
+      tellGame("focus");
+    }
+  };
 
   return (
     <section className="flex flex-col justify-center py-8 xl:py-2">
@@ -47,7 +70,7 @@ const GamePlayer = ({ game }) => {
             {/* Sized to fit the window height too, so the page does not scroll on laptops */}
             <div
               ref={stageRef}
-              className="w-full mx-auto bg-black rounded-xl overflow-hidden shadow-2xl"
+              className="w-full mx-auto xl:mx-0 bg-black rounded-xl overflow-hidden shadow-2xl"
               style={{
                 aspectRatio: `${game.width} / ${game.height}`,
                 maxWidth: `min(${Math.round(game.width * 1.25)}px, calc((100svh - 230px) * ${game.width / game.height}))`,
@@ -65,7 +88,7 @@ const GamePlayer = ({ game }) => {
               />
             </div>
             <div className="flex flex-wrap items-center justify-center xl:justify-start gap-3">
-              <Button onClick={enterFullscreen} className="gap-2">
+              <Button onPointerDown={() => tellGame("keep-playing")} onClick={enterFullscreen} className="gap-2">
                 <FiMaximize aria-hidden="true" /> Fullscreen
               </Button>
               <Button variant="outline" onClick={() => setRunId((n) => n + 1)} className="gap-2">
@@ -109,7 +132,7 @@ const GamePlayer = ({ game }) => {
               </ul>
             </div>
             <ul className="flex flex-col gap-1 text-xs leading-relaxed text-white/60">
-              <li>Press Play, then click the game once so it receives your keyboard.</li>
+              <li>Press Play to start. Esc or a click outside the game pauses it.</li>
               {game.notes?.map((note) => (
                 <li key={note}>{note}</li>
               ))}
