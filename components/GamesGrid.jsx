@@ -36,8 +36,7 @@ const GamesGrid = () => {
         <motion.div {...fadeIn} className="text-center mb-12">
           <h1 className="text-3xl font-bold text-white">Game Developments</h1>
           <p className="text-white/80 max-w-[760px] mx-auto">
-            C++ games I built with SDL3 and OpenGL in USC&apos;s TAC 380, compiled to WebAssembly with
-            Emscripten. Pick one to play it right here. A desktop browser and keyboard work best.
+            C++ games I built with SDL3 and OpenGL, compiled to WebAssembly with Emscripten. Pick one to play it right here. A desktop browser and keyboard work best.
           </p>
         </motion.div>
 

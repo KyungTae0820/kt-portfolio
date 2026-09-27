@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the TAC 380 labs with Emscripten and copy the web build into public/games/<slug>/.
+# Build the C++ games with Emscripten and copy the web build into public/games/<slug>/.
 #
 # Usage:  scripts/build-games.sh [slug ...]     (no arguments = all games)
 # Env:    LABS_DIR, EMSDK_DIR, CPM_SOURCE_CACHE, JOBS, EXTRA_LINK_FLAGS
@@ -8,12 +8,12 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LABS_DIR="${LABS_DIR:-$HOME/Documents/TAC380/labs-KyungTae0820}"
 EMSDK_DIR="${EMSDK_DIR:-$HOME/emsdk}"
-export CPM_SOURCE_CACHE="${CPM_SOURCE_CACHE:-$HOME/TAC_cache}"   # reuse SDL source downloads across labs
+export CPM_SOURCE_CACHE="${CPM_SOURCE_CACHE:-$HOME/TAC_cache}"   # reuse SDL source downloads across games
 OUT_ROOT="$ROOT/public/games"
 TEMPLATE="$ROOT/scripts/game-shell.template.html"
 BUILD_ID="$(date -u +%Y%m%d%H%M)"                                # cache-buster baked into index.html
 JOBS="${JOBS:-8}"
-# Appended after the course link flags, so these win:
+# Appended after the project's own link flags, so these win:
 #   -O2                      optimize the link (the Emscripten toolchain adds no -O at link time)
 #   INITIAL/MAXIMUM_MEMORY   start at 128 MB and grow, instead of reserving a fixed 1 GB
 #   callMain                 lets the page start the game on the first click
@@ -52,7 +52,7 @@ for entry in "${GAMES[@]}"; do
   [[ -d "$src" ]] || { echo "missing $src" >&2; exit 1; }
   echo "==> $lab -> $slug"
 
-  # The course CMake checks for Assets/ relative to the current directory,
+  # The game's CMake checks for Assets/ relative to the current directory,
   # so configure from inside the lab folder or the assets are silently left out.
   (
     cd "$src"
@@ -66,7 +66,7 @@ for entry in "${GAMES[@]}"; do
   mkdir -p "$out"
   cp "$src/embuild/$lab.js" "$src/embuild/$lab.wasm" "$out/"
   if [[ -f "$src/embuild/$lab.data" ]]; then cp "$src/embuild/$lab.data" "$out/"; else rm -f "$out/$lab.data"; fi
-  # Our own page replaces the course-generated LabXX.html.
+  # Our own page replaces the Emscripten-generated LabXX.html.
   sed -e "s|__NAME__|$lab|g" -e "s|__TITLE__|$title|g" -e "s|__WIDTH__|$width|g" \
       -e "s|__HEIGHT__|$height|g" -e "s|__RENDERING__|$rendering|g" -e "s|__BUILD__|$BUILD_ID|g" \
       "$TEMPLATE" > "$out/index.html"

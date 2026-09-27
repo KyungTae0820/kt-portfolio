@@ -43,7 +43,7 @@ This is my personal website showcasing my experiences, projects, and skills as a
 
 ## 🎮 Browser Games
 
-The games under `/projects/games` are my TAC 380 (USC Video Game Programming) labs, written in C++ with SDL3 and OpenGL and compiled to WebAssembly with [Emscripten](https://emscripten.org). Only the compiled builds live in this repo (`public/games/<slug>/`); the C++ source stays in the course repository.
+The games under `/projects/games` are written in C++ with SDL3 and OpenGL and compiled to WebAssembly with [Emscripten](https://emscripten.org). Only the compiled builds live in this repo (`public/games/<slug>/`); the C++ source is kept in a separate repository.
 
 To rebuild them:
 
@@ -57,7 +57,7 @@ To rebuild them:
    scripts/build-games.sh              # all
    scripts/build-games.sh pong portal  # some
    ```
-   Set `LABS_DIR` if the labs repo is not at `~/Documents/TAC380/labs-KyungTae0820`.
+   Set `LABS_DIR` to the folder that holds the game sources if it is not the script's default.
 
 The page that hosts each game comes from `scripts/game-shell.template.html`. Game titles, controls, and thumbnails for the cards are in `lib/games.js`; to add a thumbnail, put an image in `public/assets/games/` and set that game's `thumb` field.
 
