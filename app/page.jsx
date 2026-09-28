@@ -42,21 +42,29 @@ const Home = () => {
             </h1>
             <p className="max-w-[650px] mb-7 text-white leading-relaxed">
               I'm a{" "}
-              {/* Local AnimatePresence so the role's exit animation never delays page navigation */}
-              <AnimatePresence mode="wait" initial={false}>
-                {showContent && (
-                  <motion.span
-                    key={roles[index]}
-                    className="text-accent"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.4 }}
-                  >
-                    {roles[index]}
-                  </motion.span>
-                )}
-              </AnimatePresence>{" "}
+              {/* A fixed-width slot as wide as the longest role, so the paragraph never reflows */}
+              <span className="inline-grid">
+                {roles.map((role) => (
+                  <span key={role} aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-nowrap">
+                    {role}
+                  </span>
+                ))}
+                {/* Local AnimatePresence so the role's exit animation never delays page navigation */}
+                <AnimatePresence mode="wait" initial={false}>
+                  {showContent && (
+                    <motion.span
+                      key={roles[index]}
+                      className="text-accent col-start-1 row-start-1 whitespace-nowrap"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      {roles[index]}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </span>{" "}
               at the University of Southern California, studying Computer Science. As a student with a
               passion for mathematics, computer science, and electrical engineering, I’m constantly exploring
               the intersection of these fields to solve complex problems. Outside of academics, I find joy in
