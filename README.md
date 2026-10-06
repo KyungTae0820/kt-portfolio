@@ -10,10 +10,13 @@ This is my personal website showcasing my experiences, projects, and skills as a
 
 ## 📌 Sections
 
-1. **About Me** — Education background and technical skills  
-2. **Resume** — Professional experience, leadership, and internships  
-3. **Projects** — Technical projects with GitHub links and demos, plus C++ games playable in the browser (`/projects/games`)  
-4. **Contact** — Social media and contact information
+The site is a single scrolling page (content lives in `lib/profile.js`):
+
+1. **Hero** — Introduction and resume download  
+2. **About Me** — Short bio and skills  
+3. **Experience** — Timeline of work, education, and programs  
+4. **Projects** — Project cards; **Games** opens the C++ games playable in the browser (`/projects/games`)  
+5. **Contact** — LinkedIn, GitHub, email, and a message form
    
 ---
 

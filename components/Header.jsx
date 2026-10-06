@@ -1,28 +1,26 @@
+"use client";
+
 import Link from "next/link";
 
-// components
 import Nav from "./Nav";
 import MobileNav from "./MobileNav";
+import { useActiveSection } from "./useActiveSection";
+import { HEADER_OFFSET, SECTION_IDS } from "@/lib/nav-links";
 
 const Header = () => {
+  // One scroll-spy feeds both the desktop and mobile menus
+  const activeId = useActiveSection(SECTION_IDS, HEADER_OFFSET);
   return (
-    <header className="py-6 xl:py-8 text-white">
-      <div className="container mx-auto flex justify-between items-center">
-        {/* logo (each page has its own h1) */}
-        <Link href="/" aria-label="KT Portfolio home">
-          <span className="text-4xl font-semibold">
-            KT<span className="text-accent">.</span>
-          </span>
+    <header className="sticky top-0 z-30 border-b border-white/5 bg-primary/95 text-white backdrop-blur">
+      <div className="container mx-auto flex h-[72px] items-center justify-between">
+        <Link href="/#top" aria-label="KT Portfolio home" className="text-4xl font-semibold leading-none">
+          KT<span className="text-accent">.</span>
         </Link>
-
-        {/* desktop nav */}
         <div className="hidden xl:flex items-center gap-8">
-          <Nav />
+          <Nav activeId={activeId} />
         </div>
-
-        {/* mobile nav */}
         <div className="xl:hidden">
-          <MobileNav />
+          <MobileNav activeId={activeId} />
         </div>
       </div>
     </header>

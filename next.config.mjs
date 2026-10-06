@@ -2,6 +2,15 @@
 const nextConfig = {
   poweredByHeader: false,
 
+  // The site is now one scrolling page; old page URLs jump to their section
+  async redirects() {
+    return [
+      { source: "/resume", destination: "/#experience", permanent: true },
+      { source: "/projects", destination: "/#projects", permanent: true },
+      { source: "/contact", destination: "/#contact", permanent: true },
+    ];
+  },
+
   async headers() {
     return [
       {

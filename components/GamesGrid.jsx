@@ -34,7 +34,7 @@ const GamesGrid = () => {
     <section className="flex flex-col justify-center pt-8 pb-16 xl:pt-2">
       <div className="container mx-auto">
         <motion.div {...fadeIn} className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-white mb-3">Game Developments</h1>
+          <h1 className="text-3xl font-bold text-white mb-3">Games</h1>
           <p className="text-white/80 max-w-[760px] mx-auto text-balance">
             C++ games I built with SDL3 and OpenGL, compiled to WebAssembly with Emscripten. Pick one to play it right here. A desktop browser and keyboard work best.
           </p>

@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import PageTransition from "@/components/PageTransition";
 import StairTransition from "@/components/StairTransition";
+import MotionProvider from "@/components/MotionProvider";
 
 // Variable font: one file covers every weight the site uses
 const jetbrainsMono = JetBrains_Mono({
@@ -15,7 +16,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 const SITE_URL = "https://kt-portfolio-nu.vercel.app";
 const DESCRIPTION =
-  "Portfolio of KyungTae (KT) Kim, a Computer Science student at USC: resume, projects, and C++ games you can play in the browser.";
+  "Portfolio of KyungTae (KT) Kim, a Computer Science student at USC: experience at Samsung Semiconductor and VIOLA, projects, and C++ games you can play in the browser.";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -61,11 +62,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={jetbrainsMono.variable}>
-        <Header />
-        <StairTransition />
-        <PageTransition>
-          <main>{children}</main>
-        </PageTransition>
+        <MotionProvider>
+          <Header />
+          <StairTransition />
+          <PageTransition>
+            <main>{children}</main>
+          </PageTransition>
+        </MotionProvider>
       </body>
     </html>
   );

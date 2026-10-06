@@ -3,7 +3,7 @@ import { games } from "@/lib/games";
 const SITE_URL = "https://kt-portfolio-nu.vercel.app";
 
 export default function sitemap() {
-  const pages = ["", "/resume", "/projects", "/projects/games", "/contact"];
+  const pages = ["", "/projects/games"];
   const gamePages = games.map((game) => `/projects/games/${game.slug}`);
   return [...pages, ...gamePages].map((path) => ({
     url: `${SITE_URL}${path}`,
